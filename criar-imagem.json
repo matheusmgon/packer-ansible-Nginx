@@ -1,0 +1,38 @@
+
+{
+        "variables":{
+            "ssh_user": "usuario"
+        
+    },
+        "builders": [{
+            "type": "googlecompute",
+            "account_file": "./credenciais/service-account.json",
+            "project_id": "PROJECT-ID",
+            "source_image": "ubuntu-2004-focal-v20200522",
+            "ssh_username": "{{user ssh_user`}}",
+            "zone": "southamerica-east1-b",
+            "disk_size": "20",
+            "machine_type": "g1-small",
+            "network": "default"
+        }
+    ],
+        "provisioners": [{
+            "type": "ansible",
+            "playbook_file": "./provisioners/ansible/install-nginx.yml",
+            "user": "{{user `ssh_username`}}",
+            "ansible_env_vars": [
+                "ANSIBLE_HOST_KEY_CHECKING=False"
+            ]
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+

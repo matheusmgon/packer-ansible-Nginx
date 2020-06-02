@@ -1,0 +1,23 @@
+---
+- name: Instalando NGINX
+  hosts: 'all'
+  become: yes
+  become_method: sudo
+  pre_tasks:
+    - name: Instalando atualizando repositório
+      raw: apt update
+    - name: Instalando python
+      raw: apt install python -y
+  tasks:
+  - name: Instalando o Nginx
+    apt: 
+      name: "{{ pacotes }}"
+      state: present
+    vars:
+      pacotes:
+      - nginx
+  
+  - name: Ativando NGINX no systemd
+    service:
+      name: nginx
+      state: started
